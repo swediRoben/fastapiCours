@@ -26,6 +26,15 @@ def create_cour(cour:cours,db:db_depandance):
     cour_db=models.myModels.cour(**cour.dict())
     db.add(cour_db)
     db.commit()
+    
+app.delete("/{id}",status_code=status.HTTP_201_CREATED)
+def create_cour(id:int,db:db_depandance):
+    cour_db=db.query(models.myModels.cour).filter(models.myModels.cour.id==id).first()
+    if cour_db is None:
+        raise HTTPException(status_code=status.WS_1011_INTERNAL_ERROR,detail="echec de delete")
+    db.delete(cour_db)
+    db.commit()
+
 
 app.get("/{id}",status_code=status.HTTP_200_OK)
 def get_cour(id:int,db:db_depandance):
